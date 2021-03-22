@@ -1,0 +1,49 @@
+config:
+  target: "https://api.todoist.com"
+  phases:
+    - duration: 30
+      arrivalRate: 5
+      name: "Phase 1"
+  defaults:
+    headers:
+      Authorization: Bearer {{ $processEnvironment.TOKEN }}
+      Content-Type: application/json
+  ##processor: "./myProcessor.js"
+scenarios:
+  - flow:
+      - get:
+          url: "/rest/v1/tasks"
+      - log: "Get Activate Tasks"    
+      - post:
+          url: "/rest/v1/tasks"
+          json:
+            content: "Artillery Demo Task"
+            due_string: "tomorrow at 12:00"
+            due_lang: "sp"
+            priority: 4
+          capture:
+            json: "$.id"
+            as: "TaskId"
+      - log: "Your created Task Id is: {{TaskId}}"
+      - get:
+          url: "/rest/v1/tasks/{{TaskId}}"
+      - log: "Get Activate Task {{TaskId}}"
+      - post:
+          url: "/rest/v1/tasks/{{TaskId}}"
+          json:
+            content: "Artillery Task Updated"
+      - log: "Your task {{TaskId}} was updated"
+      - post:
+          url: "/rest/v1/tasks/{{TaskId}}/close"
+      - log: "Your task {{TaskId}} completed"
+      - post:
+          url: "/rest/v1/tasks/{{TaskId}}/reopen"
+      - log: "Your task {{TaskId}} reopened"
+      - delete:
+          url: "/rest/v1/tasks/{{TaskId}}"
+      - log: "Your task {{TaskId}} was deleted"
+
+# For more information: https://artillery.io/docs/script-reference/
+  # For more information: https://artillery.io/docs/script-reference/
+  # For more information: https://artillery.io/docs/script-reference/
+# For more information: https://artillery.io/docs/script-reference/

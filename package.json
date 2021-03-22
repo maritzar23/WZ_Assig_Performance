@@ -1,0 +1,16 @@
+{
+  "name": "artillery",
+  "version": "1.0.0",
+  "description": "npm init -y",
+  "main": "index.js",
+  "scripts": {
+    "test": "artillery run --output report.json performance.yml && artillery report --output results/report.html report.json"
+  },
+  "keywords": [],
+  "author": "MR",
+  "license": "ISC",
+  "dependencies": {
+    "artillery": "^1.6.2"
+  },
+  "devDependencies": {}
+}
